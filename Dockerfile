@@ -4,7 +4,7 @@ WORKDIR /api
 
 COPY . /api
 
-RUN chmod 777 ./scripts/start.sh
+RUN chmod 777 ./scripts_sh/start.sh
 
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt

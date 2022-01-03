@@ -15,4 +15,4 @@ services:
       - "${DJANGO_BIND_PORT}:${DJANGO_BIND_PORT}"
     depends_on:
       - db
-    command: ./scripts/start.sh
+    command: ./scripts_sh/start.sh
