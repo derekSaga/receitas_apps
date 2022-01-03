@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
-from pathlib import Path
 
 from core.apps.site_receitas.apps import SiteReceitasConfig
 
@@ -59,7 +58,10 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR + '/templates/', BASE_DIR + 'core/apps/site_receitas/templates/'],
+        'DIRS': [
+            BASE_DIR + '/templates/',
+            BASE_DIR + 'core/apps/site_receitas/templates/'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
