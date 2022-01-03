@@ -15,4 +15,10 @@ services:
       - "${DJANGO_BIND_PORT}:${DJANGO_BIND_PORT}"
     depends_on:
       - db
-    command: ./scripts_sh/start.sh
+    command: [
+      "./wait-for-it.sh",
+      "db:5432",
+      "--",
+      "sh",
+      "./scripts_sh/start.sh"
+    ]
