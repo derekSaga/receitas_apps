@@ -7,10 +7,10 @@ class ReceitaAdmin(admin.ModelAdmin):
     actions = None
 
     list_display = ("id", "view_nome_receita", "categoria")
-
+    list_display_links = ("id", "view_nome_receita")
+    search_fields = ("nome_receita",)
     readonly_fields = ("date_receita",)
-
-    # save_as_continue = False
+    list_per_page = 2
     show_close_button = True
 
     def view_nome_receita(self, obj):
