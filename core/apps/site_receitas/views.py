@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 
 
 def index(request):
-    receitas = Receita.objects.all()
+    receitas = Receita.objects.order_by('-date_receita').filter(publicar=True).all()
 
     dados = {"receitas": receitas}
 
