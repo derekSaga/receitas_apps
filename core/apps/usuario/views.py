@@ -3,16 +3,16 @@ from django.shortcuts import render
 
 # Create your views here.
 def login(request):
-    pass
+    return render(request, "usuario/login.html")
 
 
 def logout(request):
-    pass
+    return render(request, "usuario/logout.html")
 
 
 def dashboard(request):
-    pass
+    return render(request, "usuario/dashboard.html")
 
 
 def cadastro(request):
-    pass
+    return render(request, "usuario/cadastro.html")
