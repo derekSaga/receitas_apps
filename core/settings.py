@@ -14,6 +14,7 @@ import os
 
 from core.apps.pessoas.apps import PessoasConfig
 from core.apps.site_receitas.apps import SiteReceitasConfig
+from core.apps.usuario.apps import UsuarioConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     SiteReceitasConfig.name,
     PessoasConfig.name,
+    UsuarioConfig.name,
 ]
 
 MIDDLEWARE = [
@@ -60,10 +62,7 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            BASE_DIR + "/templates/",
-            BASE_DIR + "core/apps/site_receitas/templates/",
-        ],
+        "DIRS": [os.path.join(BASE_DIR, "core/apps/templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
