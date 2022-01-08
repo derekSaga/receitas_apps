@@ -14,6 +14,7 @@ import os
 
 from core.apps.pessoas.apps import PessoasConfig
 from core.apps.site_receitas.apps import SiteReceitasConfig
+from core.apps.usuario.apps import UsuarioConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     SiteReceitasConfig.name,
     PessoasConfig.name,
+    UsuarioConfig.name
 ]
 
 MIDDLEWARE = [
