@@ -1,4 +1,8 @@
-from django.shortcuts import render
+import logging
+
+from django.shortcuts import redirect, render
+
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -15,4 +19,9 @@ def dashboard(request):
 
 
 def cadastro(request):
-    return render(request, "usuario/cadastro.html")
+    if request.method == 'POST':
+        logger.info('Usuario criado com sucesso')
+        print('Usuario criado com sucesso')
+        return redirect('usuario:login')
+    else:
+        return render(request, "usuario/cadastro.html")
