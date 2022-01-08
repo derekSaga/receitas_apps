@@ -63,8 +63,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            BASE_DIR + "/templates/",
-            BASE_DIR + "core/apps/site_receitas/templates/",
+            os.path.join(BASE_DIR,"core/apps/templates")
         ],
         "APP_DIRS": True,
         "OPTIONS": {

@@ -7,14 +7,14 @@ def index(request):
 
     dados = {"receitas": receitas}
 
-    return render(request, "../templates/index.html", dados)
+    return render(request, "index.html", dados)
 
 
 def receita(request, receita_id):
     receita = get_object_or_404(Receita, pk=receita_id)
 
     receita_a_exibir = {"receita": receita}
-    return render(request, "../templates/receita.html", receita_a_exibir)
+    return render(request, "receita.html", receita_a_exibir)
 
 
 def buscar(request):
@@ -28,4 +28,4 @@ def buscar(request):
 
     dados = {"receitas": receitas}
 
-    return render(request, "../templates/buscar.html", dados)
+    return render(request, "buscar.html", dados)
