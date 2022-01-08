@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-heading">
-                    <h2>Login</h2>
+                    <h2>Criar conta</h2>
                 </div>
             </div>
         </div>
@@ -27,16 +27,23 @@
                     <form action="" method="">
                         <div class="row">
                             <div class="col-12 col-lg-12">
-                            <label for="email"><b>Email</b></label>
-                                <input type="text" id="email" class="form-control" name="email" placeholder="Entre com o email cadastrado">
+                                <label for="nome_receita"><b>Nome completo</b></label>
+                                <input type="text" class="form-control" name="nome" placeholder="Ex.:Guilherme Lima" required>
                             </div>
-                                <div class="col-12 col-lg-12">
-                                <label for="senha"><b>Senha</b></label>
-                                <input id="senha" type="password" class="form-control" name="senha" placeholder="Digite aqui sua senha">
+                            <div class="col-12 col-lg-12">
+                                <label for="email"><b>Email</b></label>
+                                <input type="email" class="form-control" name="email" placeholder="Ex.: guilherme@receitas.com" required>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="password"><b>Senha</b></label>
+                                <input type="password" class="form-control" name="password" placeholder="Digite sua senha" required>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="password2"><b>Confirmação de senha</b></label>
+                                <input type="password" class="form-control" name="password2" placeholder="Digite sua senha mais uma vez" required>
                             </div>
                             <div class="col-12 text-center">
-                                <button class="btn btn-success" type="submit">Acessar sua conta</button>
-                                <button type="button" class="btn btn-primary" onclick="exibirCriarConta()">Ainda não tem conta? Clique aqui</button>
+                                <button class="btn btn-success" type="submit">Criar sua conta</button>
                             </div>
                         </div>
                     </form>
@@ -45,13 +52,6 @@
         </div>
     </div>
 </div>
-
-<script>
-function exibirCriarConta()
-{
-     location.href = "{% url 'usuario:cadastro' %}";
-} 
-</script>
 
 {% include 'partials_html/footer.html' %}
 {% endblock %}
