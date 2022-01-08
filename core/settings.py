@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     SiteReceitasConfig.name,
     PessoasConfig.name,
-    UsuarioConfig.name
+    UsuarioConfig.name,
 ]
 
 MIDDLEWARE = [
@@ -62,9 +62,7 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            os.path.join(BASE_DIR,"core/apps/templates")
-        ],
+        "DIRS": [os.path.join(BASE_DIR, "core/apps/templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
