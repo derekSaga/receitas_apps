@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 
+from pythonjsonlogger.jsonlogger import JsonFormatter
+
 from core.apps.pessoas.apps import PessoasConfig
 from core.apps.site_receitas.apps import SiteReceitasConfig
 from core.apps.usuario.apps import UsuarioConfig
@@ -28,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "django-insecure-g^5yt4#sd-6-ukt@uu&4)7(#+34+&&=b))jg35bla)a^p!8lks"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DJANGO_SETTINGS_DEBUG", True)
 
 ALLOWED_HOSTS = []
 
@@ -137,3 +139,56 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Media Files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
+
+LOG_PATH = os.path.join(BASE_DIR, "log")
+# Logging
+# Logging
+LOGGING = {
+    "version": 1,
+    # The version number of our log
+    "disable_existing_loggers": False,
+    # django uses some of its own loggers for internal operations. In case you want to disable them just replace the False above with true.
+    # A handler for WARNING. It is basically writing the WARNING messages into a file called WARNING.log
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "standard",
+        },
+    },
+    "formatters": {
+        "standard": {
+            "()": JsonFormatter,
+            "format": "%(levelname)-8s [%(asctime)s] [%(request_id)s] [%(session_id)s] %(name)s: %(message)s",
+        }
+    },
+    # A logger for WARNING which has a handler called 'file'. A logger can have multiple handler
+    "loggers": {
+        "": {"level": os.getenv("ROOT_LOG_LEVEL", "INFO"), "handlers": ["console"]},
+        "app": {
+            "level": os.getenv("PROJECT_LOG_LEVEL", "INFO"),
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "django": {
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": False,
+            "handlers": ["console"],
+        },
+        "django.request": {
+            "level": os.getenv("DJANGO_REQUEST_LOG_LEVEL", "INFO"),
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "django.db.backends": {
+            "level": os.getenv("DJANGO_DB_BACKENDS_LOG_LEVEL", "INFO"),
+            "propagate": False,
+            "handlers": ["console"],
+        },
+        "stomp.py": {
+            "level": os.getenv("STOMP_LOG_LEVEL", "WARNING"),
+            "propagate": False,
+            "handlers": ["console"],
+        },
+    },
+}
