@@ -50,8 +50,11 @@ class LoginSerializer(Schema):
         result = super().validate(data, many=many, partial=partial)
 
         user = User.objects.filter(
-            email=data.get("email"), password=data.get("password")
+            email=data.get("email")
         )
 
         if not user.exists():
-            return result.update({"errors": [{"email": "E-mail not registered"}]})
+            result.update({"errors": [{"email": "E-mail not registered"}]})
+            return result
+        else:
+            return result
