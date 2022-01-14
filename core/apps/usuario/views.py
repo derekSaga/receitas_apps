@@ -1,6 +1,8 @@
 import logging
 
 from core.apps.usuario.serializers import LoginSerializer, UsuarioSerializer
+from django.contrib import auth
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
@@ -10,12 +12,20 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 def login(request):
     if request.method == "POST":
+        email = request.POST.get('email')
+        senha = request.POST.get('senha')
         validacao = LoginSerializer().validate(
-            {"email": request.POST.get("email"), "password": request.POST.get("senha")}
+            {"email": email, "password": senha}
         )
         if validacao:
             return redirect('usuario:login')
-        return redirect('usuario:dashboard')
+        user_name = User.objects.filter(email=email).values_list('username', flat=True).get()
+        print(user_name)
+        user = authenticate(request, username=user_name, password=senha)
+
+        if user is not None:
+            auth.login(request, user)    
+            return redirect('usuario:dashboard')
     return render(request, "usuario/login.html")
 
 
