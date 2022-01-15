@@ -1,23 +1,50 @@
 import logging
 
-from core.apps.usuario.serializers import UsuarioSerializer
+from core.apps.usuario.serializers import LoginSerializer, UsuarioSerializer
+from django.contrib import auth
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
-logger = logging.getLogger(__name__)
+clogger = logging.getLogger(__name__)
 
 
 # Create your views here.
 def login(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        senha = request.POST.get("senha")
+        validacao = LoginSerializer().validate(
+            {
+                "email": email,
+                "password": senha,
+            }
+        )
+        if validacao:
+            return redirect("usuario:login")
+
+        user_name = (
+            User.objects.filter(email=email).values_list("username", flat=True).get()
+        )
+
+        user = authenticate(request, username=user_name, password=senha)
+
+        if user is not None:
+            auth.login(request, user)
+            return redirect("usuario:dashboard")
     return render(request, "usuario/login.html")
 
 
 def logout(request):
-    return render(request, "usuario/logout.html")
+    auth.logout(request)
+    return redirect("site_receitas:index")
 
 
 def dashboard(request):
-    return render(request, "usuario/dashboard.html")
+    if request.user.is_authenticated:
+        return render(request, "usuario/dashboard.html")
+    else:
+        return redirect("site_receitas:index")
 
 
 def cadastro(request):
@@ -34,14 +61,10 @@ def cadastro(request):
         if validacao:
             return render(request, "usuario/cadastro.html")
 
-        user = User.objects.create_user(
-            username=nome,
-            email=email,
-            password=password
-        )
+        user = User.objects.create_user(username=nome, email=email, password=password)
 
         user.save()
-        
+
         return redirect("usuario:login")
     else:
         return render(request, "usuario/cadastro.html")
