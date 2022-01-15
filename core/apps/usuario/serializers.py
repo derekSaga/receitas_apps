@@ -23,8 +23,13 @@ class UsuarioSerializer(Schema):
     ) -> typing.Dict[str, typing.List[str]]:
         result = super().validate(data, many=many, partial=partial)
 
-        if User.objects.filter(email=data.get("email")).exists():
-            return result.update({"errors": [{"email": "E-mail already registered"}]})
+        user_email_validate = User.objects.filter(email=data.get("email")).exists()
+        
+        user_name_validate = User.objects.filter(username=data.get("nome")).exists()
+
+        if user_email_validate or user_name_validate:
+            result.update({"errors": [{"email": "E-mail already registered"}]})
+            return result
         elif not data.get("password") == data.get("password2"):
             result.update({"errors": [{"password": "passwords do not match"}]})
             return result
