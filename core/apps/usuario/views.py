@@ -1,10 +1,11 @@
 import logging
 
+from core.apps.site_receitas.models import Receita
 from core.apps.usuario.serializers import LoginSerializer, UsuarioSerializer
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 clogger = logging.getLogger(__name__)
 
@@ -42,7 +43,10 @@ def logout(request):
 
 def dashboard(request):
     if request.user.is_authenticated:
-        return render(request, "usuario/dashboard.html")
+        receitas = Receita.objects.order_by("-date_receita").filter(
+            pessoa=request.user.id
+        )
+        return render(request, "usuario/dashboard.html", {"receitas":receitas})
     else:
         return redirect("site_receitas:index")
 
@@ -68,3 +72,31 @@ def cadastro(request):
         return redirect("usuario:login")
     else:
         return render(request, "usuario/cadastro.html")
+
+
+def criar_receita(request):
+    if request.method == "POST":
+
+        user = get_object_or_404(User, pk=request.user.id)
+
+        nome_receita = request.POST.get("nome_receita")
+        ingredientes = request.POST.get("ingredientes")
+        modo_preparo = request.POST.get("modo_preparo")
+        tempo_preparo = request.POST.get("tempo_preparo")
+        rendimento = request.POST.get("rendimento")
+        categoria = request.POST.get("categoria")
+        files = request.FILES.get("foto_receita")
+
+        Receita.objects.create(
+            nome_receita=nome_receita,
+            ingredientes=ingredientes,
+            modo_preparo=modo_preparo,
+            tempo_preparo=tempo_preparo,
+            rendimento=rendimento,
+            categoria=categoria,
+            foto_receita=files,
+            pessoa=user,
+        )
+        return redirect("usuario:dashboard")
+
+    return render(request, "usuario/criar_receita.html")
