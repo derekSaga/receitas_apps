@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from core.apps.pessoas.models import Pessoa
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -15,7 +15,7 @@ class Receita(models.Model):
     publicar = models.BooleanField(default=False)
     foto_receita = models.ImageField(upload_to='./fotos/%d/%m/%Y/', blank=True)
 
-    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    pessoa = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.nome_receita.title()
