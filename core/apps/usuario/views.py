@@ -68,3 +68,7 @@ def cadastro(request):
         return redirect("usuario:login")
     else:
         return render(request, "usuario/cadastro.html")
+
+
+def criar_receita(request):
+    return render(request, "usuario/criar_receita.html")
