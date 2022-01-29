@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     SiteReceitasConfig.name,
-    PessoasConfig.name,
+    # PessoasConfig.name,
     UsuarioConfig.name,
 ]
 

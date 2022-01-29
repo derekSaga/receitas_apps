@@ -2,7 +2,7 @@ from core.apps.pessoas.models import Pessoa
 from django.contrib import admin
 
 
-@admin.register(Pessoa)
+# @admin.register(Pessoa)
 class PessoaAdmin(admin.ModelAdmin):
     actions = None
     search_fields = ("nome",)
