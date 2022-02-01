@@ -41,6 +41,9 @@
                         <div class="receipe-content">
                             <a href="{% url 'site_receitas:receita' receita.id %}">
                                 <h5>{{ receita.nome_receita }}</h5>
+                                <a href="{% url 'usuario:deleta_receita' receita.id %}">
+                                    <i class="fa fa-trash fa-7x" aria-hidden="true"></i>
+                                </a>
                             </a>
                         </div>
                     </div>

@@ -5,6 +5,7 @@ from core.apps.usuario.serializers import LoginSerializer, UsuarioSerializer
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
 clogger = logging.getLogger(__name__)
@@ -100,3 +101,12 @@ def criar_receita(request):
         return redirect("usuario:dashboard")
 
     return render(request, "usuario/criar_receita.html")
+
+
+def deleta_receita(request, receita_id):
+    with transaction.atomic():
+        receita = get_object_or_404(Receita, pk=receita_id)
+
+        receita.delete()
+
+    return redirect("usuario:dashboard")
