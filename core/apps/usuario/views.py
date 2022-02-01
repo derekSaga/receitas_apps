@@ -26,7 +26,8 @@ def login(request):
             return redirect("usuario:login")
 
         user_name = (
-            User.objects.filter(email=email).values_list("username", flat=True).get()
+            User.objects.filter(email=email).values_list(
+                "username", flat=True).get()
         )
 
         user = authenticate(request, username=user_name, password=senha)
@@ -47,7 +48,7 @@ def dashboard(request):
         receitas = Receita.objects.order_by("-date_receita").filter(
             pessoa=request.user.id
         )
-        return render(request, "usuario/dashboard.html", {"receitas":receitas})
+        return render(request, "usuario/dashboard.html", {"receitas": receitas})
     else:
         return redirect("site_receitas:index")
 
@@ -60,13 +61,15 @@ def cadastro(request):
         password2 = request.POST.get("password2")
 
         validacao = UsuarioSerializer().validate(
-            {"nome": nome, "email": email, "password": password, "password2": password2}
+            {"nome": nome, "email": email,
+                "password": password, "password2": password2}
         )
 
         if validacao:
             return render(request, "usuario/cadastro.html")
 
-        user = User.objects.create_user(username=nome, email=email, password=password)
+        user = User.objects.create_user(
+            username=nome, email=email, password=password)
 
         user.save()
 
@@ -110,3 +113,33 @@ def deleta_receita(request, receita_id):
         receita.delete()
 
     return redirect("usuario:dashboard")
+
+
+def edita_receita(request, receita_id):
+    receita = get_object_or_404(Receita, pk=receita_id)
+
+    receita_a_editar = {'receita': receita}
+
+    return render(request, 'usuario/edita_receita.html', receita_a_editar)
+
+
+def atualiza_receita(request):
+    if request.method == 'POST':
+
+        receita_id = request.POST.get('receita_id')
+        with transaction.atomic():
+
+            receita = get_object_or_404(Receita, pk=receita_id)
+
+            receita.nome_receita = request.POST['nome_receita']
+            receita.ingredientes = request.POST['ingredientes']
+            receita.modo_preparo = request.POST['modo_preparo']
+            receita.tempo_preparo = request.POST['tempo_preparo']
+            receita.rendimento = request.POST['rendimento']
+            receita.categoria = request.POST['categoria']
+
+            if 'foto_receita' in request.FILES:
+                receita.foto_receita = request.FILES['foto_receita']
+
+            receita.save()
+        return redirect("usuario:dashboard")
