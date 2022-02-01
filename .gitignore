@@ -132,3 +132,5 @@ pip-selfcheck.json
 # Files
 *.pyc
 venv/*
+.scannerwork/*
+**/media
