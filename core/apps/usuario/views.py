@@ -103,7 +103,7 @@ def criar_receita(request):
         )
         return redirect("usuario:dashboard")
 
-    return render(request, "usuario/criar_receita.html")
+    return render(request, "receitas/criar_receita.html")
 
 
 def deleta_receita(request, receita_id):
@@ -120,7 +120,7 @@ def edita_receita(request, receita_id):
 
     receita_a_editar = {'receita': receita}
 
-    return render(request, 'usuario/edita_receita.html', receita_a_editar)
+    return render(request, 'receitas/edita_receita.html', receita_a_editar)
 
 
 def atualiza_receita(request):

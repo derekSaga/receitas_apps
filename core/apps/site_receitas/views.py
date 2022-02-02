@@ -14,7 +14,7 @@ def receita(request, receita_id):
     receita = get_object_or_404(Receita, pk=receita_id)
 
     receita_a_exibir = {"receita": receita}
-    return render(request, "receita.html", receita_a_exibir)
+    return render(request, "receitas/receita.html", receita_a_exibir)
 
 
 def buscar(request):
@@ -24,8 +24,8 @@ def buscar(request):
     if "search" in request.GET:
         termo_busca = request.GET["search"]
         if termo_busca:
-            receitas = receitas.filter(nome_receita__contains=termo_busca)
+            receitas = receitas.filter(nome_receita__contains=str(termo_busca).title())
 
     dados = {"receitas": receitas}
 
-    return render(request, "buscar.html", dados)
+    return render(request, "receitas/buscar.html", dados)
